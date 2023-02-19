@@ -1,0 +1,26 @@
+from django.db import models
+
+# Create your models here.
+class User(models.Model):
+    first_name = models.CharField(max_length=200) 
+    last_name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    def __str__(self):
+        return self.first_name
+
+  
+class Query(models.Model):
+    query_text = models.CharField(max_length=100)
+    query_date = models.DateTimeField('date')
+    query_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.query_text
+
+class QueryStatus(models.Model):
+    STATUS_CHOICES = (
+    ("InProgress", "Query is inProgress"),
+    ("Processed", "Query is Prossed"),
+)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='InProgress')
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    
