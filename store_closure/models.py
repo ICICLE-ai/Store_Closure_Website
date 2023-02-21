@@ -23,4 +23,18 @@ class QueryStatus(models.Model):
 )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='InProgress')
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    
+
+
+class Homedata(models.Model):
+    longitude = models.DecimalField(max_digits = 18 , decimal_places=15)
+    latitude = models.DecimalField(max_digits = 18, decimal_places=15)
+    hhinc8 = models.IntegerField()
+    owncar = models.IntegerField()
+    category = models.CharField(max_length=4)
+    salary = models.IntegerField()
+
+class Marketdata(models.Model):
+    longitude = models.DecimalField(max_digits = 18 , decimal_places=15)
+    latitude = models.DecimalField(max_digits = 18, decimal_places=15)
+    category = models.CharField(max_length=4)
+    FSA = models.IntegerField()
