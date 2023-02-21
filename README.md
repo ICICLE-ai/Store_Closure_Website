@@ -5,6 +5,7 @@
     * Basic django structure (Sharyu)
     * User, Query, QueryStatus models (Sharyu)
 - **02/20/2023**
+
        ```pip install django-extensions ```
     * Homedata, Marketdata models (Harsh)
     * Added datafiles in data_files folder (Harsh)
