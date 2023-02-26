@@ -6,7 +6,7 @@
     * User, Query, QueryStatus models (Sharyu)
 - **02/20/2023**
 
-       ```pip install django-extensions ```
+    ```pip install django-extensions```
     * Homedata, Marketdata models (Harsh)
     * Added datafiles in data_files folder (Harsh)
     * Loaded initial data to database (Harsh)
