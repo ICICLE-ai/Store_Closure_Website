@@ -4,7 +4,7 @@
 - **02/19/2023**
     * Basic django structure (Sharyu)
     * User, Query, QueryStatus models (Sharyu)
-    
+
 - **02/20/2023**
 
     ```pip install django-extensions```
@@ -20,3 +20,4 @@
     ```
     https://drive.google.com/file/d/1ev2gF3WzQQiEIYtGiQIuQsX5hln0MOSp/view?usp=sharing
     ```
+    * Go to ```http://127.0.0.1:8000/abm/``` to run ABM
