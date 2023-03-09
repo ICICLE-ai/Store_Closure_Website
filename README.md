@@ -23,6 +23,5 @@
     * Go to ```http://127.0.0.1:8000/abm/``` to run ABM
 
 - **03/07/2023**
-    * Added a virtual env activate it using  ```source venv/bin/activate (for mac)``` (Harsh)
-    * do ```pip install kaleido``` as that package is too big for github, you will need to install in you local machine
+    * Added a requirements.txt  ```pip install -r requirements.txt``` (Harsh)
     * Added Dockerfile and docker-compose file (Harsh)
