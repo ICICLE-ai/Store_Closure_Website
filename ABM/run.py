@@ -1,5 +1,5 @@
 import os
-os.chdir("/Users/harshpanday/Desktop/Foodshed_website/ABM/")
+os.chdir("./ABM/")
 from .server import server
 from .main import ABM
 import profile
