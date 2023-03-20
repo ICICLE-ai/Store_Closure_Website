@@ -25,3 +25,6 @@
 - **03/07/2023**
     * Added a requirements.txt  ```pip install -r requirements.txt``` (Harsh)
     * Added Dockerfile and docker-compose file (Harsh)
+
+- **03/19/2023**
+    * create a new folder named "static/" at location project root 
