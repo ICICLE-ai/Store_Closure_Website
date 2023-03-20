@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
-from store_closure.views import abm_view
+from store_closure.views import abm_view, vue_test
+# from store_closure import views as sc_views
 
 urlpatterns = [
     path('store_closure/', include('store_closure.urls')),
     path('admin/', admin.site.urls),
     path('abm/',abm_view),
+    path('vue-test/', vue_test),
 ]

@@ -14,3 +14,6 @@ def abm_view(request):
     if request.method=='POST' and 'run_abm' in request.POST:
         runabm()
     return render(request,"abm.html",{})
+
+def vue_test(request):
+    return render(request, '/Users/sharyu/Documents/ICCLEProject/CapstoneProject/store_closure/templates/vue-test.html')

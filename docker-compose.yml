@@ -1,0 +1,9 @@
+version: '2.15'
+
+services:
+  web:
+    image: foodshed:0.1
+    build: .
+    command: python manage.py runserver 172.25.0.2:3000
+    ports:
+        - 3000:3000
