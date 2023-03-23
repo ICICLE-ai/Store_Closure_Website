@@ -11,7 +11,7 @@ import sys
 #import matplotlib.pyplot as plt
 import requests
 from shapely.geometry import Polygon
-from .data import erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values,erhc_data,erlc_data,lrhc_data,lrlc_data,spm_data,cspm_data
+#from .data import erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values,erhc_data,erlc_data,lrhc_data,lrlc_data,spm_data,cspm_data
 from .agent import erhc,erlc,lrhc,lrlc,spm,cspm
 from shapely.geometry import Polygon
 
@@ -19,7 +19,7 @@ global h
 h=0
 class ABM(Model):
     Map_coordinates = [39.9612, -82.9988]
-    def __init__(self):
+    def __init__(self,erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values ):
         global h
         self.schedule = BaseScheduler(self)
         self.grid = GeoSpace()

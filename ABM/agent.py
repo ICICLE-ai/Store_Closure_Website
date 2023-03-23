@@ -7,7 +7,6 @@ import networkx as nx
 import osmnx as ox
 
 ox.settings.use_cache=True
-ox.settings.cache_folder = "C:/Users/user/Desktop/RA/pythonProject20/cache"
 filepath_drive = "./data/columbus.graphml"
 G = ox.load_graphml(filepath_drive)  #DRIVE GRAPH
 filepath_walk = "./data/columbus_walk.graphml"

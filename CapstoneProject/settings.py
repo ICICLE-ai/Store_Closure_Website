@@ -129,7 +129,7 @@ USE_TZ = True
 ROOT_PATH = os.path.dirname(__file__)
 STATIC_URL = '/static/'
 STATIC_ROOT = 'var/static_root/'
-STATICFILES_DIRS = ['/Users/sharyu/Documents/ICCLEProject/CapstoneProject/static']
+STATICFILES_DIRS = [str(BASE_DIR)+'/static']
 # STATICFILES_DIRS = [os.path.join(ROOT_PATH,'static')]
 
 # Default primary key field type
