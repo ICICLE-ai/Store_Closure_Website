@@ -31,3 +31,6 @@ def abm_view(request):
 
 def vue_test(request):
     return render(request, str(BASE_DIR)+'/store_closure/templates/vue-test.html')
+
+# def vue_test(request):
+#     return render(request, '/Users/sharyu/Documents/ICCLEProject/CapstoneProject/store_closure/templates/vue-test.html')
