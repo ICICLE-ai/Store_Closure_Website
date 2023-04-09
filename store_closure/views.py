@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 def index(request):
     return HttpResponse("Hi, Please input your query here.")
 
@@ -29,8 +29,15 @@ def abm_view(request):
         runabm(market_df,household_df)
     return render(request,"abm.html",{})
 
+def homedata_location_list(request):
+    locations = Homedata.objects.all()
+    data = [{'latitude': location.latitude, 'longitude': location.longitude} for location in locations]
+    return JsonResponse(data, safe=False)
+
+# def marketdata_location_list(request):
+#     locations = Marketdata.objects.all()
+#     data = [{'latitude': location.latitude, 'longitude': location.longitude} for location in locations]
+#     return JsonResponse(data, safe=False)
+
 def vue_test(request):
     return render(request, str(BASE_DIR)+'/store_closure/templates/vue-test.html')
-
-# def vue_test(request):
-#     return render(request, '/Users/sharyu/Documents/ICCLEProject/CapstoneProject/store_closure/templates/vue-test.html')

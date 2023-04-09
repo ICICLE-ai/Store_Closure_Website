@@ -23,31 +23,31 @@ import axios from 'axios'
         <button @click="submitForm" class = "button-feild">Submit</button>
       </div> 
     </div>
-      <div id ="map"></div>
   </div>
 
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
-  data() {
-    return {
-      firstName: '',
-      lastName: '',
-      queryText: '',
-      emailAddress: '',
-    }
-  },
-  methods: {
-    submitForm() {
-      // Handle form submission here
+  export default {
+    name: 'QueryForm',
+    
+    props: {
+      msg: String
     },
-  },
-}
+    data() {
+      return {
+        firstName: '',
+        lastName: '',
+        queryText: '',
+        emailAddress: '',
+      }
+    },
+    methods: {
+      submitForm() {
+        // Handle form submission here
+      },
+    },
+  }
 
 </script>
 
@@ -72,30 +72,25 @@ export default {
   display: flex;
 }
 
-
 .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  
   align-items: center;
   
 }
 .button-feild {
-  width: 10%;
+  width: 15%;
 }
 .area-feild {
   height: 50px;
-  width: 20%;
+  width: 35%;
   text-align: left;
 }
 .input-feild {
-  width: 20%;
+  width: 35%;
 }
-.map {
-  height: 100%;
-  width: 100%;
-}
+
 
 </style>
 
