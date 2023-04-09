@@ -27,11 +27,20 @@
     * Added Dockerfile and docker-compose file (Harsh)
 
 - **03/19/2023**
-    * create a new folder named "static/" at location project root (Shrayu)
+    * create a new folder named "static/" at location project root (Sharyu)
 
 - **03/20/2023**
     * Updated Models for Market Data (Harsh)
     * Updated ABM, so that it takes data from database (Harsh)
+
 - **03/23/2023**
     * Updated Models for Household data (Harsh)
     * Fixed the path recognition problem (Harsh) 
+
+- **04/02/2023**
+    * Created a Basic frontend to input a query(Sharyu)
+    
+- **09/02/2023**
+    * Added a Map to the frontend (Sharyu)
+    * Also marked homedata on the map (Sharyu)
+
