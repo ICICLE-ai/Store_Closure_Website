@@ -1,9 +1,24 @@
 version: '2.15'
 
+networks:
+  foodshed-net:
+    driver: bridge
+
 services:
-  web:
-    image: foodshed:0.1
+  foodshed-postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: foodshed
+      POSTGRES_PASSWORD: foodshed
+      POSTGRES_DB: foodshed
+      POSTGRES_HOST: foodshed-postgres
+
+  foodshed:
     build: .
-    command: python manage.py runserver 172.25.0.2:3000
+    image: foodshed:0.1
     ports:
-        - 3000:3000
+        - 8000:8000
+    tty: true
+    restart:
+        always
+    command: python -m gunicorn CapstoneProject.asgi:application -k uvicorn.workers.UvicornWorker
