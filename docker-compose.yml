@@ -21,4 +21,6 @@ services:
     tty: true
     restart:
         always
-    command: python -m gunicorn CapstoneProject.asgi:application -k uvicorn.workers.UvicornWorker
+#     command: python -m gunicorn CapstoneProject.asgi:application -k uvicorn.workers.UvicornWorker
+# Don't use this yet, it's for deployment only. In the docker terminal just run 'python manage.py runserver 0.0.0.0:8000' when you are developing. Run migrations too.
+# A script needs to be created when it connects to the db. (Carlos)
