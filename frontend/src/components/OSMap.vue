@@ -11,7 +11,7 @@
       axios.get('http://localhost:8000/store_closure/api/homedata/locations/')
       .then(response => {
         this.homedataLocations = response.data
-        console.log(this.homedataLocations)
+        //console.log(this.homedataLocations)
         this.displayMap()
       })
       .catch(error => {

@@ -1,8 +1,8 @@
-import axios from 'axios'
 
 <template>
   <div class="row">
     <div class="column">
+
       <div class = "form-group">
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" v-model="firstName" class = "input-feild">
@@ -20,7 +20,7 @@ import axios from 'axios'
         <input type="text" id="query" v-model="queryText" class = "area-feild">
       </div>
       <div class = "form-group">
-        <button @click="submitForm" class = "button-feild">Submit</button>
+        <button @click="submitForm()" class = "button-feild">Submit</button>
       </div> 
     </div>
   </div>
@@ -28,9 +28,10 @@ import axios from 'axios'
 </template>
 
 <script>
+import axios from 'axios'
+
   export default {
     name: 'QueryForm',
-    
     props: {
       msg: String
     },
@@ -38,14 +39,35 @@ import axios from 'axios'
       return {
         firstName: '',
         lastName: '',
-        queryText: '',
         emailAddress: '',
+        queryText: '',
       }
     },
+   
     methods: {
       submitForm() {
+        //console.log(this.firstName);
+        axios
+        .post("submit-form/", {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          emailAddress: this.emailAddress,
+          queryText: this.queryText,
+        }, {
+                xsrfCookieName: 'csrftoken',
+                xsrfHeaderName: 'X-CSRFTOKEN',
+                })
+        
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+       
         // Handle form submission here
       },
+      
     },
   }
 

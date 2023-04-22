@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
-from store_closure.views import abm_view, vue_test
+from store_closure.views import abm_view, vue_test, submit_form
 # from store_closure import views as sc_views
 
 urlpatterns = [
@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('abm/',abm_view),
     path('vue-test/', vue_test),
+    path('vue-test/submit-form/', submit_form),
 ]

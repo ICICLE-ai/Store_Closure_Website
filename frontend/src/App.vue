@@ -1,5 +1,8 @@
 <template>
+      <input type="hidden" name="csrfmiddlewaretoken" :value="csrfToken" />
+
 <div class= "row"> 
+
 <div class= "column1"> 
   <QueryForm msg="Welcome to Your Vue.js App from Vue"/>
   </div>
@@ -19,7 +22,26 @@ export default {
   components: {
     QueryForm,
     OpenStreetMap
-  }
+  },
+   mounted(){
+       this.csrfToken = this.getCookie("csrftoken");
+    },
+      methods: {
+      getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    },
+    }
 }
 </script>
 

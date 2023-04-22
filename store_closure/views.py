@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 # from ABM.data import erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values,erhc_data,erlc_data,lrhc_data,lrlc_data,spm_data,cspm_data
 # from ABM.agent import erhc,erlc,lrhc,lrlc,spm,cspm
@@ -6,9 +7,10 @@ from django.shortcuts import render
 import os
 from pathlib import Path
 from ABM.run import runabm
-from .models import Marketdata, Homedata
+from .models import Marketdata, Homedata, Query, User
 import pandas as pd
-
+import json
+from django.http import JsonResponse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,3 +43,26 @@ def homedata_location_list(request):
 
 def vue_test(request):
     return render(request, str(BASE_DIR)+'/store_closure/templates/vue-test.html')
+
+def submit_form(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # print(data)
+        # print(data.get('firstName'))
+        user = User(
+            first_name=data['firstName'],
+            last_name=data['lastName'],
+            email=data['emailAddress']
+        )
+        user.save()
+        # create a new Query object
+        query = Query(
+            query_text=data['queryText'],
+            query_date= datetime.now(),
+            query_user=user
+        )
+        query.save()
+        # process the data
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
