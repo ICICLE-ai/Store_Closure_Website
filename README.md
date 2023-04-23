@@ -40,9 +40,14 @@
 - **04/02/2023**
     * Created a Basic frontend to input a query(Sharyu)
     
-- **04/02/2023**
+- **04/09/2023**
     * Added a Map to the frontend (Sharyu)
     * Also marked homedata on the map (Sharyu)
 
 - **04/22/2023**
     * Updated Cors policy (Harsh)
+
+- **09/22/2023**
+    * Added a Different color to loctation Markers(homedata+ marketdata) (Sharyu)
+    * Send query from frontend to backend (Sharyu)
+
