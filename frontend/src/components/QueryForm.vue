@@ -53,13 +53,20 @@ import axios from 'axios'
           lastName: this.lastName,
           emailAddress: this.emailAddress,
           queryText: this.queryText,
-        }, {
-                xsrfCookieName: 'csrftoken',
-                xsrfHeaderName: 'X-CSRFTOKEN',
-                })
+        }, 
+        {
+          xsrfCookieName: 'csrftoken',
+          xsrfHeaderName: 'X-CSRFTOKEN',
+        })
         
         .then((response) => {
           console.log(response.data);
+          this.firstName = '';
+          this.lastName = '';
+          this.emailAddress = '';
+          this.queryText = '';
+          window.alert('Query submitted successfully');
+
         })
         .catch((error) => {
           console.log(error);

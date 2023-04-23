@@ -33,13 +33,14 @@ def abm_view(request):
 
 def homedata_location_list(request):
     locations = Homedata.objects.all()
-    data = [{'latitude': location.latitude, 'longitude': location.longitude} for location in locations]
+    data = [{'latitude': location.latitude, 'longitude': location.longitude, 'category': location.category} for location in locations]
     return JsonResponse(data, safe=False)
 
-# def marketdata_location_list(request):
-#     locations = Marketdata.objects.all()
-#     data = [{'latitude': location.latitude, 'longitude': location.longitude} for location in locations]
-#     return JsonResponse(data, safe=False)
+def marketdata_location_list(request):
+    locations = Marketdata.objects.all()
+    data = [{'latitude': location.latitude, 'longitude': location.longitude, 'category': location.category} for location in locations]
+
+    return JsonResponse(data, safe=False)
 
 def vue_test(request):
     return render(request, str(BASE_DIR)+'/store_closure/templates/vue-test.html')
