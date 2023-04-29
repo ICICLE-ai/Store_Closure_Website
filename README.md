@@ -41,7 +41,7 @@
     * Created a Basic frontend to input a query(Sharyu)
     
 - **04/09/2023**
-    * Added a Map to the frontend (Sharyu)
+    * Added a Map to the frontend ```npm i -D @vue-leaflet/vue-leaflet leaflet``` (Sharyu)
     * Also marked homedata on the map (Sharyu)
 
 - **04/22/2023**
