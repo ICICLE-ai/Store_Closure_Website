@@ -6,6 +6,8 @@
   import axios from 'axios'
   import L from 'leaflet'
   export default {
+    
+
     data() {
       return {
         homedataLocations: [],
@@ -18,10 +20,6 @@
       .then(response => {
         this.homedataLocations = response.data
         this.displayMap();
-
-        // this.homedataLocations = response.data
-        // console.log(this.homedataLocations)
-        // this.displayMap()
       })
       .catch(error => {
         console.log(error)
@@ -29,7 +27,7 @@
       axios.get('http://localhost:8000/store_closure/api/marketdata/locations/')
       .then(response => {
         this.marketdataLocations = response.data
-
+        
         //this.marketdataLocations = response.data
         //console.log(this.marketdataLocations)
         //this.displayMap()
@@ -48,10 +46,11 @@
           center:[40.0363228657714, -82.98385714469946],
           zoom:14
         }
-        let map = new L.map('OpenStreetMap' , mapOptions);
+        let map = new L.map('OpenStreetMap' , mapOptions); 
         let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
         map.addLayer(layer);
 
+    
         let categoryIcons = {
           LRHC : L.icon({
             iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -117,7 +116,22 @@
           L.marker([location.latitude, location.longitude], {icon: categoryIcon}).addTo(map);
 
         })
+        
+
       }
     }
   }
 </script>
+
+<style>
+.legend {
+  position: absolute;
+  top:20px;
+  right: 20px;
+  background-color: white;
+  padding: 0px;
+  border-radius: 5px;
+  
+}
+</style>
+
