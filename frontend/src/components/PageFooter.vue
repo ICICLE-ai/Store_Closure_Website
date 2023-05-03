@@ -3,25 +3,24 @@
     <div class="footer-container">
       <div class="footer-column">
         <h3 class="footer-heading">About Us</h3>
-        <p class="footer-text">Add footer text. </p>
+        <p class="footer-text">The ICICLE project is funded by the National Science Foundation (NSF) under grant number OAC-2112606.
+
+ </p>
       </div>
       <div class="footer-column">
         <h3 class="footer-heading">Contact Us</h3>
-        <p class="footer-text">1234 Main Street, City, State 12345</p>
-        <p class="footer-text">Phone: (123) 456-7890</p>
-        <p class="footer-text">Email: info@example.com</p>
+        <p class="footer-text">2015 Neil Ave, Columbus, Ohio 43202</p>
+        <p class="footer-text">Phone: (614) 292-5813</p>
+        <p class="footer-text">Email: etshelp@osu.edu</p>
       </div>
       <div class="footer-column">
         <h3 class="footer-heading">Follow Us</h3>
-        <ul class="social-media-list">
-          <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-          <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-          <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-          <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-        </ul>
+        <div class="iccle-link">
+          <a href="https://iccle.com/">ICICLE</a>
+        </div>
       </div>
     </div>
-    <p class="copy-right">&copy; Your Site Name, All rights reserved.</p>
+    <p class="copy-right">&copy; 2023 The Ohio State University, All rights reserved.</p>
   </footer>
 </template>
 
@@ -64,6 +63,7 @@
 
 .social-media-list li {
   margin-right: 1rem;
+  color: white;
 }
 
 .social-media-list li:last-child {
@@ -72,8 +72,16 @@
 
 .social-media-list a {
   color: white;
-}
+} 
 
+.social-media-list a[href="https://icicle.osu.edu/"] {
+  text-decoration: none;
+  color: white;
+}
+.iccle-link {
+  margin-top: 0.5rem;
+  color: white;
+}
 .copy-right {
   font-size: 0.8rem;
   text-align: center;
