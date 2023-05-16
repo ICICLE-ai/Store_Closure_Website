@@ -13,6 +13,10 @@ The agent based model is based on the following papers
 
 ## Deployment
 
+Please download the following file and add it to **./ABM/data/** 
+
+https://drive.google.com/file/d/1ev2gF3WzQQiEIYtGiQIuQsX5hln0MOSp/view?usp=sharing 
+
 ### Without Docker Container
 
 ```
