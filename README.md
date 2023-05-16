@@ -1,53 +1,53 @@
-# Store_Closure_Website
-### Timeline and progress
+# Store_Closure_Website (Version 1)
+## Introduction
 
-- **02/19/2023**
-    * Basic django structure (Sharyu)
-    * User, Query, QueryStatus models (Sharyu)
+This website provides users with an engaging and interactive platform to explore an agent-based model. The model allows for dynamic simulations and captures the complex interactions between different types of households and markets. By utilizing this model, users can gain valuable insights into the food insecurity levels experienced by various types of households. 
 
-- **02/20/2023**
+![Webiste](Webiste.png)
 
-    ```pip install django-extensions```
-    * Homedata, Marketdata models (Harsh)
-    * Added datafiles in data_files folder (Harsh)
-    * Loaded initial data to database (Harsh)
-        +  ```python manage.py runscript load_initial_data```
+The agent based model is based on the following papers
 
-- **03/06/2023**
-    
-    * Added the Agent Based Model to the backend (Harsh)
-    * Please download the following file and add it to ``` ./ABM/data/ ```
-    ```
-    https://drive.google.com/file/d/1ev2gF3WzQQiEIYtGiQIuQsX5hln0MOSp/view?usp=sharing
-    ```
-    * Go to ```http://127.0.0.1:8000/abm/``` to run ABM
+ - [Koh, K., Reno, R., & Hyder, A. (2018). Designing an agent-based model using group model building: Application to food insecurity patterns in a US midwestern metropolitan city. Journal of Urban Health, 95, 278-289.](https://link.springer.com/article/10.1007/s11524-018-0230-1)
+ - [Koh, K., Reno, R., & Hyder, A. (2019). Examining disparities in food accessibility among households in Columbus, Ohio: an agent-based model. Food Security, 11, 317-331.](https://link.springer.com/article/10.1007/s12571-019-00900-7)
 
-- **03/07/2023**
-    * Added a requirements.txt  ```pip install -r requirements.txt``` (Harsh)
-    * Added Dockerfile and docker-compose file (Harsh)
 
-- **03/19/2023**
-    * create a new folder named "static/" at location project root (Sharyu)
+## Deployment
 
-- **03/20/2023**
-    * Updated Models for Market Data (Harsh)
-    * Updated ABM, so that it takes data from database (Harsh)
+### Without Docker Container
 
-- **03/23/2023**
-    * Updated Models for Household data (Harsh)
-    * Fixed the path recognition problem (Harsh) 
+```
+You will need to install PostgreSQL to your machine.
 
-- **04/02/2023**
-    * Created a Basic frontend to input a query(Sharyu)
-    
-- **04/09/2023**
-    * Added a Map to the frontend ```npm i -D @vue-leaflet/vue-leaflet leaflet``` (Sharyu)
-    * Also marked homedata on the map (Sharyu)
+* Set up PostgreSQL in you local machine.
+* Create a database named "mydatabase"
+* Change "Databases" configuration in the settings.py file according to your machine.
+```
 
-- **04/22/2023**
-    * Updated Cors policy (Harsh)
+Then do the following steps.
+```
+> git clone https://github.com/Harshpanday/Store_Closure_Website.git
 
-- **09/22/2023**
-    * Added a Different color to loctation Markers(homedata+ marketdata) (Sharyu)
-    * Send query from frontend to backend (Sharyu)
+> pip install -r requirements.txt
 
+> Run the load_initial_data.py inside scripts folder (if running for the 1st time)
+
+> python manage.py runserver
+
+> Add "/vue-test" in front of the localhost address to access the website's frontend.
+```
+
+
+## Usage
+The primary purpose of this website is to empower users to run the agent-based model and obtain an  analysis of how their queries impact the food insecurity levels of different households.
+
+In order to run the agent based model deploy the website 
+
+![Webiste](Webiste.png)
+
+Once you see the above page, enter your First Name, Last Name, Email Address, Query and press submit.
+
+Once you press submit the agent based model will start the simulation in the background 
+
+![ABMbackground](ABMbackground.jpg)
+
+All this collected data will be used for analysis.

@@ -21,7 +21,7 @@ def index(request):
     return HttpResponse("Hi, Please input your query here.")
 
 def abm_view(request):
-    if request.method=='POST' and 'run_abm' in request.POST:
+    if request.method=='POST':
         market_item = Marketdata.objects.all().values()
         market_df = pd.DataFrame(market_item)
         household_item = Homedata.objects.all().values()
@@ -64,6 +64,7 @@ def submit_form(request):
         )
         query.save()
         # process the data
+        abm_view(request)
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})

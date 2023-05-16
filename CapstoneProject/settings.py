@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'corsheaders',
+    'CapstoneProject',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +135,11 @@ USE_TZ = True
 
 ROOT_PATH = os.path.dirname(__file__)
 STATIC_URL = '/static/'
-STATIC_ROOT = 'var/static_root/'
-STATICFILES_DIRS = [str(BASE_DIR)+'/static']
+# STATIC_ROOT = 'var/static_root/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles/'
+print(ROOT_PATH)
+print(STATICFILES_DIRS)
 # STATICFILES_DIRS = [os.path.join(ROOT_PATH,'static')]
 
 # Default primary key field type
