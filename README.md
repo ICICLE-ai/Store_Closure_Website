@@ -55,3 +55,7 @@ Once you press submit the agent based model will start the simulation in the bac
 ![ABMbackground](ABMbackground.jpg)
 
 All this collected data will be used for analysis.
+
+
+## Acknowledgements
+This work has been funded by grants from the National Science Foundation, including the ICICLE AI Institute (OAC 2112606)
