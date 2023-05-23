@@ -1,5 +1,9 @@
 import json
 import ast
+import os
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+os.chdir(str(BASE_DIR)+"/ABM/")
 
 query = open('./demoOutputDict.json')
 #query ="[{\"type\": \"remove\", \"qty\": \"1\", \"obj\": \"SPM.\", \"location\": \"Default\"}]"

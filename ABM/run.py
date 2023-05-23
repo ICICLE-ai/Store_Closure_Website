@@ -10,7 +10,7 @@ import profile
 def runabm(market_df,household_df):
     erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values= data_processing(market_df,household_df)
     abm_steps = ABM(erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values )
-    for i in range(1):
+    for i in range(2):
         abm_steps.step()
     #print("running")
     #profile.run(server.launch())
