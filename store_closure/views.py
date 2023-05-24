@@ -28,7 +28,7 @@ def abm_view(request):
         household_df = pd.DataFrame(household_item)
 
         #print(df)
-        runabm(market_df,household_df)
+        runabm(market_df,household_df,)
     return render(request,"abm.html",{})
 
 def homedata_location_list(request):
@@ -64,7 +64,19 @@ def submit_form(request):
         )
         query.save()
         # process the data
+
+        ##RECIEVE Query
+
+        market_item = Marketdata.objects.all().values()
+        market_df = pd.DataFrame(market_item)
+        household_item = Homedata.objects.all().values()
+        household_df = pd.DataFrame(household_item)
+
+        #print(df)
+        runabm(market_df,household_df,query)
+
         abm_view(request)
+
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})

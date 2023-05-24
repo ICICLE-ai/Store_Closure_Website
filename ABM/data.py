@@ -5,11 +5,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 os.chdir(str(BASE_DIR)+"/ABM/")
 
-query = open('./demoOutputDict.json')
+
 #query ="[{\"type\": \"remove\", \"qty\": \"1\", \"obj\": \"SPM.\", \"location\": \"Default\"}]"
-for i in query:
-    a = i.replace("\\","")
-q = ast.literal_eval(a[1:-1])
 
 import pandas as pd
 import geopandas
@@ -24,7 +21,13 @@ import uuid
 geolocator = Nominatim(user_agent="Tallion22")
 place = " Columbus Ohio"
 
-def data_processing(market,household):
+def data_processing(market,household,query):
+    #query = open('./demoOutputDict.json')
+
+    for i in query:
+        a = i.replace("\\","")
+        q   = ast.literal_eval(a[1:-1])
+
     df = pd.concat([household[['longitude','latitude','category']].reset_index(drop=True),market[['longitude','latitude','category']].reset_index(drop=True)],axis=0)
 
     a_r_m_c_commands=[]
