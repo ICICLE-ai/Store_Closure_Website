@@ -77,6 +77,8 @@ def submit_form(request):
 
         abm_view(request)
 
+        
+
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
