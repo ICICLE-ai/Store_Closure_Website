@@ -5,24 +5,42 @@
     </div>
     <div class="row">
       <div class="column1">
-        <QueryForm msg="Welcome to Your Vue.js App from Vue" ref="QueryForm" :client="client"/>
+        <QueryForm msg="Welcome to Your Vue.js App from Vue" ref="QueryForm" />
       </div>
       <div class="column2">
-        <OpenStreetMap msg="below is the map" :client="client"/>
+        <OpenStreetMap msg="below is the map" />
       </div>
       <div class="column3">
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png"
-          class="marker-icon"> LRHC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png"
-          class="marker-icon"> ERHC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png"
-          class="marker-icon"> ERLC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png"
-          class="marker-icon"> LRLC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png"
-          class="marker-icon"> SPM<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png"
-          class="marker-icon"> CSPM<br>
+        <img
+          src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png"
+          class="marker-icon"
+        />
+        LRHC<br />
+        <img
+          src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png"
+          class="marker-icon"
+        />
+        ERHC<br />
+        <img
+          src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png"
+          class="marker-icon"
+        />
+        ERLC<br />
+        <img
+          src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png"
+          class="marker-icon"
+        />
+        LRLC<br />
+        <img
+          src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png"
+          class="marker-icon"
+        />
+        SPM<br />
+        <img
+          src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png"
+          class="marker-icon"
+        />
+        CSPM<br />
       </div>
     </div>
     <div class="footer">
@@ -31,29 +49,29 @@
   </div>
   <div class="modal">
     <LoadingModal v-show="show_loading_modal" />
-    <ResultsModal v-show="show_results_modal" @close="closeResultsModal()" :file_name="file_name" />
+    <ResultsModal
+      v-show="show_results_modal"
+      @close="closeResultsModal()"
+      :file_name="file_name"
+    />
   </div>
 </template>
 
 <script>
-import QueryForm from './components/QueryForm.vue'
-import OpenStreetMap from "./components/OSMap.vue"
-import PageHeader from "./components/PageHeader.vue"
-import PageFooter from "./components/PageFooter.vue"
-import ResultsModal from './components/ResultsModal.vue'
-import LoadingModal from './components/LoadingModal.vue'
-import axios from 'axios'
+import QueryForm from "./components/QueryForm.vue";
+import OpenStreetMap from "./components/OSMap.vue";
+import PageHeader from "./components/PageHeader.vue";
+import PageFooter from "./components/PageFooter.vue";
+import ResultsModal from "./components/ResultsModal.vue";
+import LoadingModal from "./components/LoadingModal.vue";
+import axios from "axios";
 const client = axios.create({
-  baseURL: 'http://localhost:8080',
-  headers: {
-          xsrfCookieName: 'csrftoken',
-          xsrfHeaderName: 'X-CSRFTOKEN',
-          crossDomain: true,
-        },
-  json: true
+  baseURL: "http://localhost:8080",
+  json: true,
 });
+
 export default {
-  name: 'App',
+  name: "App",
   components: {
     PageHeader,
     QueryForm,
@@ -68,10 +86,10 @@ export default {
       show_loading_modal: false,
       csrfToken: null,
       file_name: null,
-    }
+    };
   },
   mounted() {
-    this.csrfToken = this.getCookie("csrftoken")
+    this.csrfToken = this.getCookie("csrftoken");
   },
   methods: {
     getCookie(name) {
@@ -99,14 +117,17 @@ export default {
     closeResultsModal() {
       // call the server to delete the file
       client
-        .post("store-closure/delete-file/", {
-          file_name: this.file_name,
-        },
-        {
-          xsrfCookieName: 'csrftoken',
-          xsrfHeaderName: 'X-CSRFTOKEN',
-          crossDomain: true,
-        })
+        .post(
+          "store-closure/delete-file/",
+          {
+            file_name: this.file_name,
+          },
+          {
+            xsrfCookieName: "csrftoken",
+            xsrfHeaderName: "X-CSRFTOKEN",
+            crossDomain: true,
+          }
+        )
         .then((response) => {
           console.log(response.data);
         })
@@ -116,8 +137,8 @@ export default {
       // Close the modal
       this.show_results_modal = false;
     },
-  }
-}
+  },
+};
 </script>
 
 <style>
@@ -147,7 +168,6 @@ export default {
 
 .row {
   padding-top: 3rem;
-
 }
 
 .column1 {
@@ -166,7 +186,6 @@ export default {
   float: left;
   width: 10%;
   flex: 10%;
-
 }
 
 .marker-icon {
@@ -184,4 +203,3 @@ export default {
   text-align: center;
 }
 </style>
-

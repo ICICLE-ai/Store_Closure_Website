@@ -1,131 +1,153 @@
 <template>
-  <div id ="OpenStreetMap"></div>
+  <div id="OpenStreetMap"></div>
 </template>
 
 <script>
-  import L from 'leaflet'
-
-  export default {
-    name: 'OpenStreetMap',
-    props: ['msg', 'client'],
-    data() {
-      return {
-        homedataLocations: [],
-        marketdataLocations: [],
-      }
-    },
-    mounted () {
-      //add 
-      this.client.get('store-closure/homedata/locations/')
-      .then(response => {
-        this.homedataLocations = response.data
+import axios from "axios";
+import L from "leaflet";
+const client = axios.create({
+  baseURL: "http://localhost:8080",
+  json: true,
+});
+export default {
+  name: "OpenStreetMap",
+  data() {
+    return {
+      homedataLocations: [],
+      marketdataLocations: [],
+    };
+  },
+  mounted() {
+    //add
+    client
+      .get("store-closure/homedata/locations/", {
+        xsrfCookieName: "csrftoken",
+        xsrfHeaderName: "X-CSRFTOKEN",
+        crossDomain: true,
+      })
+      .then((response) => {
+        this.homedataLocations = response.data;
         this.displayMap();
       })
-      .catch(error => {
-        console.log(error)
+      .catch((error) => {
+        console.log(error);
       });
-      this.client.get('store-closure/marketdata/locations/')
-      .then(response => {
-        this.marketdataLocations = response.data
+    client
+      .get("store-closure/marketdata/locations/", {
+        xsrfCookieName: "csrftoken",
+        xsrfHeaderName: "X-CSRFTOKEN",
+        crossDomain: true,
       })
-      .catch(error => {
-        console.log(error)
+      .then((response) => {
+        this.marketdataLocations = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  methods: {
+    displayMap() {
+      // Initialize the map
+      let mapOptions = {
+        //center:[40.0171, -83.0168],
+        center: [40.0363228657714, -82.98385714469946],
+        zoom: 14,
+      };
+      let map = new L.map("OpenStreetMap", mapOptions);
+      let layer = new L.TileLayer(
+        "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      );
+      map.addLayer(layer);
+
+      let categoryIcons = {
+        LRHC: L.icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+        ERHC: L.icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+        ERLC: L.icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+        LRLC: L.icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+        SPM: L.icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+        CSPM: L.icon({
+          iconUrl:
+            "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png",
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41],
+        }),
+      };
+      // Add markers for each location
+      this.homedataLocations.forEach((location) => {
+        let categoryIcon = categoryIcons[location.category];
+        L.marker([location.latitude, location.longitude], {
+          icon: categoryIcon,
+        }).addTo(map);
+      });
+      // Add markers for each location
+      this.marketdataLocations.forEach((location) => {
+        let categoryIcon = categoryIcons[location.category];
+        L.marker([location.latitude, location.longitude], {
+          icon: categoryIcon,
+        }).addTo(map);
       });
     },
-
-    methods: {
-      displayMap () {
-        
-        // Initialize the map
-        let mapOptions = {
-          //center:[40.0171, -83.0168],
-          center:[40.0363228657714, -82.98385714469946],
-          zoom:14
-        }
-        let map = new L.map('OpenStreetMap' , mapOptions); 
-        let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-        map.addLayer(layer);
-
-    
-        let categoryIcons = {
-          LRHC : L.icon({
-            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          }),
-          ERHC : L.icon({
-            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          }),
-          ERLC : L.icon({
-            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          }),
-          LRLC : L.icon({
-            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          }),
-          SPM : L.icon({
-            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          }),
-          CSPM : L.icon({
-            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          })
-        };
-        // Add markers for each location
-        this.homedataLocations.forEach(location => {
-
-          let categoryIcon = categoryIcons[location.category];
-          L.marker([location.latitude, location.longitude], {icon: categoryIcon}).addTo(map);
-
-        })
-        // Add markers for each location
-        this.marketdataLocations.forEach(location => {
-
-          let categoryIcon = categoryIcons[location.category];
-          L.marker([location.latitude, location.longitude], {icon: categoryIcon}).addTo(map);
-
-        })
-        
-
-      }
-    }
-  }
+  },
+};
 </script>
 
 <style>
 .legend {
   position: absolute;
-  top:20px;
+  top: 20px;
   right: 20px;
   background-color: white;
   padding: 0px;
   border-radius: 5px;
-  
 }
 </style>
