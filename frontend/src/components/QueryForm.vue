@@ -19,19 +19,15 @@
       </div>
       <div class="form-group">
         <button @click="submitForm()" class="submit-button">Submit</button>
-      </div> 
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'QueryForm',
-  props: {
-    msg: String
-  },
+  props: ['msg', 'client'],
   data() {
     return {
       firstName: '',
@@ -42,24 +38,30 @@ export default {
   },
   methods: {
     submitForm() {
-      axios
-        .post("submit-form/", {
+      // Show the loading modal
+      this.$root.showLoadingModal();
+
+      // Send the form data to the server
+      this.client
+        .post("store-closure/submit-form/", {
           firstName: this.firstName,
           lastName: this.lastName,
           emailAddress: this.emailAddress,
           queryText: this.queryText,
-        }, 
-        {
-          xsrfCookieName: 'csrftoken',
-          xsrfHeaderName: 'X-CSRFTOKEN',
         })
         .then((response) => {
-          console.log(response.data);
+          window.alert('Done!');
+          // Grab the file name from the response
+          let file_name = response.data.file_name;
+
+          // Show the results modal
+          this.$root.showResultsModal(file_name);
+
+          // Clear the form
           this.firstName = '';
           this.lastName = '';
           this.emailAddress = '';
           this.queryText = '';
-          window.alert('Query submitted successfully');
         })
         .catch((error) => {
           console.log(error);

@@ -1,16 +1,42 @@
-FROM python:3.9-slim
-ENV PYTHONUNBUFFERED=1
+# FROM python:3.9 as build-backend-stage
 
-WORKDIR /app
-COPY ./ /app
-RUN apt update > /dev/null
-RUN apt install -y libgdal-dev libspatialindex-dev nodejs npm > /dev/null
+# RUN apt update
+# RUN apt install -y libgdal-dev \
+#     libspatialindex-dev
 
-WORKDIR /app/frontend
-RUN npm --force install
-RUN npm run build
+# WORKDIR /app
+# RUN python -m venv .venv
 
-WORKDIR /app
-RUN pip install --quiet -r  requirements.txt
-RUN pip install --quiet django-cors-headers
-RUN python -m pip install uvicorn gunicorn
+# COPY ./backend/requirements.txt .
+# RUN .venv/bin/pip install --quiet -r requirements.txt
+# RUN .venv/bin/pip install --quiet django-cors-headers \
+#     gunicorn \
+#     uvicorn
+
+# FROM node:lts-bullseye as build-frontend-stage
+# WORKDIR /app
+# COPY ./frontend/ .
+
+# RUN npm --force install
+# RUN npm run build
+
+# FROM nginx:stable-bullseye as production-stage
+# ENV PYTHONUNBUFFERED=1 \
+#     SECRET_KEY=./SECRET.key
+
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# WORKDIR /app
+# RUN mkdir static
+# COPY --from=build-backend-stage /app/.venv .venv
+# COPY --from=build-frontend-stage /app/static ./static
+# COPY ./backend .
+# COPY favicon.ico ./static/src/vue/dist/favicon.ico
+# COPY ./docker-entrypoint.sh .
+
+# ENTRYPOINT "./docker-entrypoint.sh"
+
+
+
+
+

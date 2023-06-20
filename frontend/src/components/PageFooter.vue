@@ -15,8 +15,8 @@
       </div>
       <div class="footer-column">
         <h3 class="footer-heading">Follow Us</h3>
-        <div class="iccle-link">
-          <a href="https://iccle.com/">ICICLE</a>
+        <div class="icicle-link">
+          <a href="https://icicle.ai/">ICICLE</a>
         </div>
       </div>
     </div>
@@ -74,11 +74,11 @@
   color: white;
 } 
 
-.social-media-list a[href="https://icicle.osu.edu/"] {
+.social-media-list a[href="https://icicle.ai/"] {
   text-decoration: none;
   color: white;
 }
-.iccle-link {
+.icicle-link {
   margin-top: 0.5rem;
   color: white;
 }

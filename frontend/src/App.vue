@@ -1,31 +1,38 @@
 <template>
   <div id="app">
-    <input type="hidden" name="csrfmiddlewaretoken" :value="csrfToken" />
-    <div>    
-      <PageHeader msg="header"/>
+    <div>
+      <PageHeader msg="header" />
     </div>
-    <div class= "row"> 
-      <div class= "column1"> 
-        <QueryForm msg="Welcome to Your Vue.js App from Vue"/>
+    <div class="row">
+      <div class="column1">
+        <QueryForm msg="Welcome to Your Vue.js App from Vue" ref="QueryForm" :client="client"/>
       </div>
-      <div class= "column2"> 
-        <OpenStreetMap msg="below is the map"/>
+      <div class="column2">
+        <OpenStreetMap msg="below is the map" :client="client"/>
       </div>
-      <div class = "column3">
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png" class="marker-icon"> LRHC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png" class="marker-icon"> ERHC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png" class="marker-icon"> ERLC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png" class="marker-icon"> LRLC<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png" class="marker-icon"> SPM<br>
-        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png" class="marker-icon"> CSPM<br>
-  
+      <div class="column3">
+        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png"
+          class="marker-icon"> LRHC<br>
+        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png"
+          class="marker-icon"> ERHC<br>
+        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png"
+          class="marker-icon"> ERLC<br>
+        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png"
+          class="marker-icon"> LRLC<br>
+        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png"
+          class="marker-icon"> SPM<br>
+        <img src="https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png"
+          class="marker-icon"> CSPM<br>
       </div>
     </div>
-    <div class= "footer">
-    <PageFooter msg="footer"/>
+    <div class="footer">
+      <PageFooter msg="footer" />
+    </div>
   </div>
-</div>
-  
+  <div class="modal">
+    <LoadingModal v-show="show_loading_modal" />
+    <ResultsModal v-show="show_results_modal" @close="closeResultsModal()" :file_name="file_name" />
+  </div>
 </template>
 
 <script>
@@ -33,20 +40,41 @@ import QueryForm from './components/QueryForm.vue'
 import OpenStreetMap from "./components/OSMap.vue"
 import PageHeader from "./components/PageHeader.vue"
 import PageFooter from "./components/PageFooter.vue"
-
+import ResultsModal from './components/ResultsModal.vue'
+import LoadingModal from './components/LoadingModal.vue'
+import axios from 'axios'
+const client = axios.create({
+  baseURL: 'http://localhost:8080',
+  headers: {
+          xsrfCookieName: 'csrftoken',
+          xsrfHeaderName: 'X-CSRFTOKEN',
+          crossDomain: true,
+        },
+  json: true
+});
 export default {
   name: 'App',
   components: {
     PageHeader,
     QueryForm,
     OpenStreetMap,
-    PageFooter
+    PageFooter,
+    ResultsModal,
+    LoadingModal,
   },
-   mounted(){
-       this.csrfToken = this.getCookie("csrftoken");
-    },
-      methods: {
-      getCookie(name) {
+  data() {
+    return {
+      show_results_modal: false,
+      show_loading_modal: false,
+      csrfToken: null,
+      file_name: null,
+    }
+  },
+  mounted() {
+    this.csrfToken = this.getCookie("csrftoken")
+  },
+  methods: {
+    getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== "") {
         const cookies = document.cookie.split(";");
@@ -60,7 +88,35 @@ export default {
       }
       return cookieValue;
     },
-    }
+    showLoadingModal() {
+      this.show_loading_modal = true;
+    },
+    showResultsModal(file_name) {
+      this.show_loading_modal = false;
+      this.show_results_modal = true;
+      this.file_name = file_name;
+    },
+    closeResultsModal() {
+      // call the server to delete the file
+      client
+        .post("store-closure/delete-file/", {
+          file_name: this.file_name,
+        },
+        {
+          xsrfCookieName: 'csrftoken',
+          xsrfHeaderName: 'X-CSRFTOKEN',
+          crossDomain: true,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // Close the modal
+      this.show_results_modal = false;
+    },
+  }
 }
 </script>
 
@@ -89,7 +145,7 @@ export default {
   width: 1100px;
 }
 
-.row{
+.row {
   padding-top: 3rem;
 
 }
@@ -110,14 +166,16 @@ export default {
   float: left;
   width: 10%;
   flex: 10%;
-  
+
 }
-  .marker-icon {
-    width: 20px;
-    height: 30px;
-  }
-.footer{
-position: fixed;
+
+.marker-icon {
+  width: 20px;
+  height: 30px;
+}
+
+.footer {
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 168px;
@@ -125,7 +183,5 @@ position: fixed;
   color: black;
   text-align: center;
 }
-
 </style>
-
 

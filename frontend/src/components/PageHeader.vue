@@ -1,7 +1,7 @@
 <template>
   <header class="main-header">
     <div class="logo-container">
-      <img src="../assets/ICCLE.jpeg" alt="Logo" class="logo">
+      <img src="../assets/ICICLE.jpeg" alt="Logo" class="logo">
       <h1 class="site-title">Store Closure</h1>
     </div>
     <nav class="main-navigation">

@@ -3,11 +3,11 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import L from 'leaflet'
-  export default {
-    
 
+  export default {
+    name: 'OpenStreetMap',
+    props: ['msg', 'client'],
     data() {
       return {
         homedataLocations: [],
@@ -16,7 +16,7 @@
     },
     mounted () {
       //add 
-      axios.get('http://localhost:8000/store_closure/api/homedata/locations/')
+      this.client.get('store-closure/homedata/locations/')
       .then(response => {
         this.homedataLocations = response.data
         this.displayMap();
@@ -24,13 +24,9 @@
       .catch(error => {
         console.log(error)
       });
-      axios.get('http://localhost:8000/store_closure/api/marketdata/locations/')
+      this.client.get('store-closure/marketdata/locations/')
       .then(response => {
         this.marketdataLocations = response.data
-        
-        //this.marketdataLocations = response.data
-        //console.log(this.marketdataLocations)
-        //this.displayMap()
       })
       .catch(error => {
         console.log(error)
@@ -101,7 +97,6 @@
             shadowSize: [41, 41]
           })
         };
-
         // Add markers for each location
         this.homedataLocations.forEach(location => {
 
@@ -134,4 +129,3 @@
   
 }
 </style>
-

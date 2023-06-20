@@ -1,26 +1,56 @@
-version: '2.15'
+version: '2.17.2'
 
 networks:
-  foodshed-net:
+  store-closure-net:
     driver: bridge
 
 services:
-  foodshed-postgres:
+  store-closure-postgres:
     image: postgres
     environment:
-      POSTGRES_USER: foodshed
-      POSTGRES_PASSWORD: foodshed
-      POSTGRES_DB: foodshed
-      POSTGRES_HOST: foodshed-postgres
-
-  foodshed:
-    build: .
-    image: foodshed:0.1
+      POSTGRES_USER: store-closure
+      POSTGRES_PASSWORD: store-closure
+      POSTGRES_DB: store-closure
+      POSTGRES_HOST: store-closure-postgres
+      
+  store-closure-backend:
+    build:
+      context: .
+      dockerfile: dockerfile-backend
+    image: ghcr.io/icicle-ai/store-closure-back:latest
     ports:
-        - 8000:8000
-    tty: true
-    restart:
-        always
-#     command: python -m gunicorn CapstoneProject.asgi:application -k uvicorn.workers.UvicornWorker
-# Don't use this yet, it's for deployment only. In the docker terminal just run 'python manage.py runserver 0.0.0.0:8000' when you are developing. Run migrations too.
-# A script needs to be created when it connects to the db. (Carlos)
+        - 8080:8080
+    environment:
+      DB_NAME: store-closure
+      DB_USERNAME: store-closure
+      DB_PASSWORD: store-closure
+      DB_HOST: store-closure-postgres
+      DB_PORT: 5432
+      AI_URL: https://foodshedconvai.pods.icicle.tapis.io
+      FRONTEND_URL: http://localhost:3000
+      FRONTEND_HOST: localhost
+      HOST: 0.0.0.0
+      PORT: 8080
+      WORKERS: 2
+      THREADS: 4
+      DEBUG: 'False'
+
+    volumes:
+      - store-closure-results:/app/results
+  
+  store-closure-frontend:
+    build:
+      context: .
+      dockerfile: dockerfile-frontend
+    image: ghcr.io/icicle-ai/store-closure-front:latest
+    ports:
+        - 3000:80
+    environment:
+      VUE_APP_API_URL: http://localhost:8080
+      BACKEND_HOST: store-closure-backend
+    volumes:
+      - store-closure-results:/app/results
+
+volumes:
+  store-closure-results:
+    name: store-closure-results

@@ -1,0 +1,28 @@
+FROM python:3.9 as build-stage
+
+RUN apt update
+RUN apt install -y libgdal-dev \
+    libspatialindex-dev
+
+WORKDIR /app
+RUN python -m venv .venv
+
+COPY ./requirements.txt .
+RUN .venv/bin/pip install --quiet -r requirements.txt
+RUN .venv/bin/pip install --quiet django-cors-headers \
+    gunicorn \
+    uvicorn
+
+FROM python:3.9-slim as production-stage
+ENV PYTHONUNBUFFERED=1 \
+    SECRET_KEY=./SECRET.key \
+    PATH="/app/.venv/bin:$PATH"
+
+WORKDIR /app
+RUN mkdir static
+COPY --from=build-stage /app/.venv .venv
+COPY ./backend .
+
+RUN mkdir /app/results
+
+ENTRYPOINT "./docker-entrypoint.sh"

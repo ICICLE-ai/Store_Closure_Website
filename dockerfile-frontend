@@ -1,0 +1,23 @@
+FROM node:lts-bullseye as build-stage
+WORKDIR /app
+COPY ./frontend/ .
+
+RUN npm --force install
+RUN npm run lint
+RUN npm run build
+
+FROM nginx:stable-bullseye as production-stage
+
+COPY ./frontend/nginx.conf /etc/nginx/nginx.conf
+
+WORKDIR /app
+RUN mkdir static
+COPY --from=build-stage /static ./static
+COPY favicon.ico ./static/dist/favicon.ico
+COPY index.html ./static/dist/index.html
+COPY ./frontend/create_env_file.sh .
+COPY ./frontend/docker-entrypoint.sh .
+
+RUN mkdir /app/results
+
+ENTRYPOINT [ "sh", "docker-entrypoint.sh" ]
