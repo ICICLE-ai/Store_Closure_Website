@@ -40,15 +40,15 @@ Then do the following steps.
 > Add "/vue-test" in front of the localhost address to access the website's frontend.
 ```
 ### With Docker
-
-```
 Make sure you have docker compose installed.
 Then simply run
+```
 > docker compose up
+
+```
 This will run the frontend, backend, and database containers.
 To query the Converstational AI model, you will need an internet connection.
 
-```
 
 
 ## Usage
