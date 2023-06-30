@@ -45,7 +45,8 @@ Then do the following steps.
 Make sure you have docker compose installed.
 Then simply run
 > docker compose up
-This will run the frontend, backend, and database containers. To query the Converstational AI model, you will need an internet connection.
+This will run the frontend, backend, and database containers.
+To query the Converstational AI model, you will need an internet connection.
 
 ```
 
