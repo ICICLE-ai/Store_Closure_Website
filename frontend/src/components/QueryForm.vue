@@ -75,11 +75,11 @@ export default {
             emailAddress: this.emailAddress,
             queryText: this.queryText,
           },
-          {
-            xsrfCookieName: "csrftoken",
-            xsrfHeaderName: "X-CSRFTOKEN",
-            crossDomain: true,
-          }
+          // {
+          //   xsrfCookieName: "csrftoken",
+          //   xsrfHeaderName: "X-CSRFTOKEN",
+          //   crossDomain: true,
+          // }
         )
         .then((response) => {
           window.alert("Done!");

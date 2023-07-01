@@ -6,7 +6,7 @@
 import axios from "axios";
 import L from "leaflet";
 const client = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://storeclosureapi.pods.icicle.tapis.io",
   json: true,
 });
 export default {
@@ -21,9 +21,10 @@ export default {
     //add
     client
       .get("store-closure/homedata/locations/", {
-        xsrfCookieName: "csrftoken",
-        xsrfHeaderName: "X-CSRFTOKEN",
-        crossDomain: true,
+        // xsrfCookieName: "csrftoken",
+        // xsrfHeaderName: "X-CSRFTOKEN",
+        // crossDomain: true,
+        // "Content-Type": "application/json",
       })
       .then((response) => {
         this.homedataLocations = response.data;
@@ -34,9 +35,11 @@ export default {
       });
     client
       .get("store-closure/marketdata/locations/", {
-        xsrfCookieName: "csrftoken",
-        xsrfHeaderName: "X-CSRFTOKEN",
-        crossDomain: true,
+      //   xsrfCookieName: "csrftoken",
+      //   xsrfHeaderName: "X-CSRFTOKEN",
+      //   crossDomain: true,
+      //   "Content-Type": "application/json",
+      //   "Sec-Fetch-Site": "cross-site",
       })
       .then((response) => {
         this.marketdataLocations = response.data;

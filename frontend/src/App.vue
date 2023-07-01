@@ -66,7 +66,7 @@ import ResultsModal from "./components/ResultsModal.vue";
 import LoadingModal from "./components/LoadingModal.vue";
 import axios from "axios";
 const client = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://storeclosureapi.pods.icicle.tapis.io",
   json: true,
 });
 
@@ -122,11 +122,11 @@ export default {
           {
             file_name: this.file_name,
           },
-          {
-            xsrfCookieName: "csrftoken",
-            xsrfHeaderName: "X-CSRFTOKEN",
-            crossDomain: true,
-          }
+          // {
+          //   xsrfCookieName: "csrftoken",
+          //   xsrfHeaderName: "X-CSRFTOKEN",
+          //   crossDomain: true,
+          // }
         )
         .then((response) => {
           console.log(response.data);

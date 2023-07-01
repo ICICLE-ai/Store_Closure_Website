@@ -60,7 +60,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 ROOT_URLCONF = 'CapstoneProject.urls'
 # CORS_ORIGIN_ALLOW_ALL = True   
-CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     os.environ['FRONTEND_URL']
 ]   
 
@@ -69,14 +69,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = (
-    "accept",
-    "authorization",
-    "content-type",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-)
+CORS_ALLOW_HEADERS = '*'
 
 TEMPLATES = [
     {

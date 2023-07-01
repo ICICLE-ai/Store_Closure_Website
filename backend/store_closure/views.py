@@ -17,14 +17,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 def homedata_location_list(request):
     locations = Homedata.objects.all()
     data = [{'latitude': location.latitude, 'longitude': location.longitude, 'category': location.category} for location in locations]
-
-    return JsonResponse(data, safe=False)
+    response = JsonResponse(data, safe=False)
+    return response
 
 def marketdata_location_list(request):
     locations = Marketdata.objects.all()
     data = [{'latitude': location.latitude, 'longitude': location.longitude, 'category': location.category} for location in locations]
-
-    return JsonResponse(data, safe=False)
+    response = JsonResponse(data, safe=False)
+    return response
 
 def submit_form(request):
     if request.method == 'POST':
@@ -46,7 +46,7 @@ def submit_form(request):
         query.save()
         try:
             # Send the query to the AI
-            response = requests.get(f"{os.environ['AI_URL']}/query?q={query.query_text}", timeout=(200,200))
+            response = requests.get(f"{os.environ['AI_URL']}/query?q={query.query_text}", timeout=(1000,1000))
             # print(response.json())
             token = data['emailAddress'] # Use email for now, replace with session token later
 
