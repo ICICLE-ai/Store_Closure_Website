@@ -9,20 +9,17 @@ class User(models.Model):
     email = models.EmailField(max_length=200)
     def __str__(self):
         return self.first_name + " " + self.last_name
-        
-
   
 class Query(models.Model):
-    query_text = models.CharField(max_length=100)
-    query_date = models.DateTimeField('date')
+    query_text = models.TextField()
     query_user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.query_text
 
 class QueryStatus(models.Model):
     STATUS_CHOICES = (
-    ("InProgress", "Query is inProgress"),
-    ("Processed", "Query is Prossed"),
+    ("In Progress", "Query is in Progress"),
+    ("Processed", "Query is Processed"),
 )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='InProgress')
     query = models.ForeignKey(Query, on_delete=models.CASCADE)

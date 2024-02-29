@@ -27,7 +27,7 @@ except KeyError:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'True'
 
-ALLOWED_HOSTS = [os.environ['FRONTEND_HOST']]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,14 +59,14 @@ MIDDLEWARE = [
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 ROOT_URLCONF = 'CapstoneProject.urls'
-# CORS_ORIGIN_ALLOW_ALL = True   
-CORS_ORIGIN_WHITELIST = [
-    os.environ['FRONTEND_URL']
-]   
+CORS_ORIGIN_ALLOW_ALL = True   
+# CORS_ALLOWED_ORIGINS = [
+#     os.environ['FRONTEND_URL']
+# ]   
 
-CSRF_TRUSTED_ORIGINS = [
-    os.environ['FRONTEND_URL']
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     os.environ['FRONTEND_URL']
+# ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = '*'

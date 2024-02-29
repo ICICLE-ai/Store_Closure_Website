@@ -8,15 +8,20 @@ from zipfile import ZipFile
 import os
 from pathlib import Path
 
-def compress_files(token:str, query:str):
-    # Zip the pdf and txt files
-    with ZipFile(f"/app/results/{token}_{query}.zip", "w") as zipObj:
-        zipObj.write(f"/app/results/{token}_{query}_graphs.pdf", f"{token}_{query}_graphs.pdf")
-        zipObj.write(f"/app/results/{token}_{query}_output.txt", f"{token}_{query}_output.txt")
-    
+def compress_files(query:str, token:str) -> None:
+    # Add query to the output file
+    with open(f'/app/results/{token}_query.txt', 'w') as f:
+        f.write(f"Query: {query}\n")
+
+    # Zip the pdf and txt files        
+    with ZipFile(f"/app/results/{token}.zip", "w") as zipObj:
+        zipObj.write(f"/app/results/{token}_graphs.pdf", f"graphs.pdf")
+        zipObj.write(f"/app/results/{token}_output.txt", f"output.txt")
+        zipObj.write(f"/app/results/{token}_query.txt", f"query.txt")
+
     # Remove the pdf and txt files
-    os.remove(f"/app/results/{token}_{query}_graphs.pdf")
-    os.remove(f"/app/results/{token}_{query}_output.txt")
+    os.remove(f"/app/results/{token}_graphs.pdf")
+    os.remove(f"/app/results/{token}_output.txt")
 
 def analysis(q, query:str, token: str) -> None:
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,7 +91,7 @@ def analysis(q, query:str, token: str) -> None:
             households['LRLC']['old'][i] = df_old["LRLC_FA"][i] + df_old["LRLC_FA"][i - 1]
     
     fig, axs = plt.subplots(nrows=len(households)+1, ncols=1, figsize=(20, 40))
-    plt.suptitle(f"Household Distribution for {query} query", fontsize=20)
+    # plt.suptitle(f"Household Distribution for {query} query", fontsize=20)
 
     # Create a bar chart for the total number of households
     new = np.array([np.round(households[key]['new'][-1],0) for key in households.keys()])
@@ -124,4 +129,4 @@ def analysis(q, query:str, token: str) -> None:
     # Save the plots to a pdf
     plt.savefig(fname=f"/app/results/{token}_graphs.pdf", bbox_inches="tight", format="pdf")
 
-    compress_files(token, query)
+    compress_files(query, token)

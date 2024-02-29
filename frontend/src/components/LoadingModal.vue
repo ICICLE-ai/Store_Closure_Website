@@ -6,9 +6,9 @@
         <h6>Please Wait</h6>
         <h7>Processing Query</h7>
         <p> This could take a few minutes.</p>
-        <p>DO NOT CLOSE this tap or window.</p>
+        <p>DO NOT CLOSE this tab or window.</p>
         <p>An alert will be sent when the query has been processed.</p>
-        <button class="button" @click="goToICICLE()">ICICLE</button>
+        <button class="button" @click="goToICICLE()">ICICLE Website</button>
       </div>
     </div>
 </template>

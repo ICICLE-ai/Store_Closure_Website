@@ -13,13 +13,13 @@ def runabm(market_df, household_df, best_command,token:str, query:str):
     abm_steps = ABM(erhc_values,erlc_values,lrhc_values,lrlc_values,spm_values,cspm_values)
 
     # direct standard output to a file
+    print("abm_steps")
     sys.stdout = open(f'/app/results/{token}_output.txt', 'w')
     for i in range(2):
         q = abm_steps.step()
     sys.stdout.close()
     # restore standard output
     sys.stdout = sys.__stdout__
-
+    print('abm_steps done')
+    
     analysis(q, query, token)
-    #print("running")
-    #profile.run(server.launch())

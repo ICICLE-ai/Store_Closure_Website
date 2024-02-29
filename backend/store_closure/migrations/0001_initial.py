@@ -16,8 +16,7 @@ class Migration(migrations.Migration):
             name='Query',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('query_text', models.CharField(max_length=100)),
-                ('query_date', models.DateTimeField(verbose_name='date')),
+                ('query_text', models.TextField()),
             ],
         ),
         migrations.CreateModel(

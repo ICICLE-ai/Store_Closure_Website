@@ -5,10 +5,7 @@
 <script>
 import axios from "axios";
 import L from "leaflet";
-const client = axios.create({
-  baseURL: "https://storeclosureapi.pods.icicle.tapis.io",
-  json: true,
-});
+
 export default {
   name: "OpenStreetMap",
   data() {
@@ -19,33 +16,29 @@ export default {
   },
   mounted() {
     //add
-    client
-      .get("store-closure/homedata/locations/", {
-        // xsrfCookieName: "csrftoken",
-        // xsrfHeaderName: "X-CSRFTOKEN",
-        // crossDomain: true,
-        // "Content-Type": "application/json",
-      })
+    const config = {
+      headers:{
+        
+      }
+    }
+    axios
+      .get("https://storeclosureapi.pods.icicle.tapis.io/store-closure/homedata/locations")
       .then((response) => {
         this.homedataLocations = response.data;
         this.displayMap();
       })
       .catch((error) => {
         console.log(error);
+        this.$root.showErrorModal();
       });
-    client
-      .get("store-closure/marketdata/locations/", {
-      //   xsrfCookieName: "csrftoken",
-      //   xsrfHeaderName: "X-CSRFTOKEN",
-      //   crossDomain: true,
-      //   "Content-Type": "application/json",
-      //   "Sec-Fetch-Site": "cross-site",
-      })
+      axios
+      .get("https://storeclosureapi.pods.icicle.tapis.io/store-closure/marketdata/locations")
       .then((response) => {
         this.marketdataLocations = response.data;
       })
       .catch((error) => {
         console.log(error);
+        this.$root.showErrorModal();
       });
   },
 

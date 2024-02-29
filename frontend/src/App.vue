@@ -49,6 +49,7 @@
   </div>
   <div class="modal">
     <LoadingModal v-show="show_loading_modal" />
+    <ErrorModal v-show="show_error_modal" />
     <ResultsModal
       v-show="show_results_modal"
       @close="closeResultsModal()"
@@ -64,11 +65,9 @@ import PageHeader from "./components/PageHeader.vue";
 import PageFooter from "./components/PageFooter.vue";
 import ResultsModal from "./components/ResultsModal.vue";
 import LoadingModal from "./components/LoadingModal.vue";
+import ErrorModal from "./components/ErrorModal.vue";
 import axios from "axios";
-const client = axios.create({
-  baseURL: "https://storeclosureapi.pods.icicle.tapis.io",
-  json: true,
-});
+
 
 export default {
   name: "App",
@@ -79,11 +78,13 @@ export default {
     PageFooter,
     ResultsModal,
     LoadingModal,
+    ErrorModal,
   },
   data() {
     return {
       show_results_modal: false,
       show_loading_modal: false,
+      show_error_modal: false,
       csrfToken: null,
       file_name: null,
     };
@@ -109,6 +110,10 @@ export default {
     showLoadingModal() {
       this.show_loading_modal = true;
     },
+    showErrorModal() {
+      this.show_loading_modal = false;
+      this.show_error_modal = true;
+    },
     showResultsModal(file_name) {
       this.show_loading_modal = false;
       this.show_results_modal = true;
@@ -116,23 +121,22 @@ export default {
     },
     closeResultsModal() {
       // call the server to delete the file
-      client
-        .post(
-          "store-closure/delete-file/",
+      axios
+      .delete("https://storeclosureapi.pods.icicle.tapis.io/store-closure/delete-file/",
           {
             file_name: this.file_name,
           },
-          // {
-          //   xsrfCookieName: "csrftoken",
-          //   xsrfHeaderName: "X-CSRFTOKEN",
-          //   crossDomain: true,
-          // }
+
         )
         .then((response) => {
+          if (!response.data.success ) {
+            this.showErrorModal();
+          }
           console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
+          this.showErrorModal();
         });
       // Close the modal
       this.show_results_modal = false;

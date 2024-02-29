@@ -29,8 +29,10 @@ def marketdata_location_list(request):
 def submit_form(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        data['queryText'] = '_'.join(data['queryText'].split(' '))
 
+        if data['commands'] == 'error':
+            return JsonResponse({'success': False, 'error': 'Invalid command'})
+        
         user = User(
             first_name=data['firstName'],
             last_name=data['lastName'],
@@ -40,31 +42,26 @@ def submit_form(request):
         # create a new Query object
         query = Query(
             query_text=data['queryText'],
-            query_date= datetime.now(),
             query_user=user
         )
         query.save()
+        token = data['emailAddress'] # Use email for now, replace with session token later
+
+        # Select the first response
+        best_command = data['commands']['cmd']
+
+        # Get the markers from the database
+        market_item = Marketdata.objects.all().values()
+        market_df = pd.DataFrame(market_item)
+        household_item = Homedata.objects.all().values()
+        household_df = pd.DataFrame(household_item)
+
         try:
-            # Send the query to the AI
-            response = requests.get(f"{os.environ['AI_URL']}/query?q={query.query_text}", timeout=(1000,1000))
-            # print(response.json())
-            token = data['emailAddress'] # Use email for now, replace with session token later
-
-            # Select the first response
-            # best_command = response.json()[0]['cmd']
-            best_command = response[0]['cmd']
-            # Get the markers from the database
-            market_item = Marketdata.objects.all().values()
-            market_df = pd.DataFrame(market_item)
-            household_item = Homedata.objects.all().values()
-            household_df = pd.DataFrame(household_item)
-
             # Analyze the data and run the agents
             runabm(market_df, household_df, best_command, token, query.query_text)
 
             return JsonResponse({'success': True, 'file_name': f"{token}.zip"})
         except Exception as e:
-            print(e)
             return JsonResponse({'success': False, 'error': str(e)})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})

@@ -3,38 +3,19 @@
     <div class="column">
       <div class="form-group">
         <label for="first_name">First Name:</label>
-        <input
-          type="text"
-          id="first_name"
-          v-model="firstName"
-          class="input-field"
-        />
+        <input type="text" id="first_name" v-model="firstName" class="input-field" />
       </div>
       <div class="form-group">
         <label for="last_name">Last Name:</label>
-        <input
-          type="text"
-          id="last_name"
-          v-model="lastName"
-          class="input-field"
-        />
+        <input type="text" id="last_name" v-model="lastName" class="input-field" />
       </div>
       <div class="form-group">
         <label for="email">Email Address:</label>
-        <input
-          type="email"
-          id="email"
-          v-model="emailAddress"
-          class="input-field"
-        />
+        <input type="email" id="email" v-model="emailAddress" class="input-field" />
       </div>
       <div class="form-group">
         <label for="query">Query:</label>
-        <textarea
-          id="query"
-          v-model="queryText"
-          class="textarea-field"
-        ></textarea>
+        <textarea id="query" v-model="queryText" class="textarea-field"></textarea>
       </div>
       <div class="form-group">
         <button @click="submitForm()" class="submit-button">Submit</button>
@@ -45,11 +26,6 @@
 
 <script>
 import axios from "axios";
-
-const client = axios.create({
-  baseURL: "http://localhost:8080",
-  json: true,
-});
 export default {
   name: "QueryForm",
   data() {
@@ -58,49 +34,64 @@ export default {
       lastName: "",
       emailAddress: "",
       queryText: "",
+      commands: "",
     };
   },
   methods: {
     submitForm() {
       // Show the loading modal
       this.$root.showLoadingModal();
-
       // Send the form data to the server
-      client
-        .post(
-          "store-closure/submit-form/",
+
+      (async () => {
+        const query_text = this.queryText.split(" ").join("_");
+        function get_commands() {
+          const url = "https://foodshedconvai.pods.icicle.tapis.io/query?q=" + query_text;
+          return axios.get(url)
+          .then((resp) => {
+            return { commands: resp, 
+                     abm_comman: resp.data[0]
+            };
+          })
+          .catch((error) => {
+            console.log(error);
+            return "error";
+          })
+        }
+        axios.post("https://storeclosureapi.pods.icicle.tapis.io/store-closure/submit-form/",
           {
             firstName: this.firstName,
             lastName: this.lastName,
             emailAddress: this.emailAddress,
             queryText: this.queryText,
-          },
-          // {
-          //   xsrfCookieName: "csrftoken",
-          //   xsrfHeaderName: "X-CSRFTOKEN",
-          //   crossDomain: true,
-          // }
-        )
-        .then((response) => {
-          window.alert("Done!");
-          // Grab the file name from the response
-          let file_name = response.data.file_name;
+            modelResponse: await get_commands(),
+          })
+          .then((response) => {
+            if (!response.data.success) {
+              this.$root.showErrorModal();
+            }
+            window.alert("Done!");
+            // Grab the file name from the response
+            let file_name = response.data.file_name;
 
-          // Show the results modal
-          this.$root.showResultsModal(file_name);
+            // Show the results modal
+            this.$root.showResultsModal(file_name);
 
-          // Clear the form
-          this.firstName = "";
-          this.lastName = "";
-          this.emailAddress = "";
-          this.queryText = "";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+            // Clear the form
+            this.firstName = "";
+            this.lastName = "";
+            this.emailAddress = "";
+            this.queryText = "";
+          })
+          .catch((error) => {
+            console.log(error);
+            this.$root.showErrorModal();
+          });
+      })();
     },
   },
 };
+
 </script>
 
 <style scoped>
